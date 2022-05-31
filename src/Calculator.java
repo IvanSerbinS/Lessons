@@ -1,63 +1,74 @@
-/*
-Программа последовательно запрашивает ввод первого операнда, затем операцию, затем второй операнд.
-При неверном вводе операнда, программа прекращает работу.
-При неверном вводе операции - предлагает повторно ввести операцию.
-Если при вводе операции введено более одного символа, то учитывается только первый
-При вводе операции деления и втором операнде равном нулю -
-                сообщает о невозможности деления на ноль и прекращает работу.
-
- */
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Calculator {
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
         double a, b;    //operands
         double res;     //result field
         char oper;      //operator field
 
-        a=enterNumber();            //Enter first double number
-        oper=enterOperation();      //Enter operation
-        b=enterNumber();            //Enter second double number
-        res=calculate(a, oper, b);  //Calculate result
-        System.out.println("Result: "+a+oper+b+'='+res); //Output result
+                System.out.println("Starting new calculation:");
+                a = enterNumber();            //Enter first double number
+                oper = enterOperation();      //Enter operation
+        while (true) {
+            try {
+                b = enterNumber();            //Enter second double number
+                res = calculate(a, oper, b);  //Calculate result
+                break;
+            } catch (ArithmeticException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        System.out.println("Result: " + a + oper + b + '=' + res); //Output result
     }
 
     //Calculation method
-    private static double calculate (double a, char oper, double b){
-        double res=0;
+    private static double calculate (double a, char oper, double b) throws Exception{
         switch (oper) {
-            case ('+'): {
-                res=a+b;
-                break;
+            case ('+') -> {
+                return add(a, b);
             }
-            case ('-'): {
-                res=a-b;
-                break;
+            case ('-') -> {
+                return subtract(a, b);
             }
-            case ('*'): {
-                res=a*b;
-                break;
+            case ('*') -> {
+                return multiplicate(a, b);
             }
-            case ('/'): {
-                if (b == 0) {
-                    System.out.println("Division by zero is not possible. Exit!");
-                    System.exit(0);
-
-                } else {
-                    res=a/b;
-                    break;
-                }
+            case ('/') -> {
+                return divide(a, b);
             }
-
+            default -> throw new Exception("Unknown operation: " + oper);
         }
-        return res;
+
+    }
+
+    //Addition method
+    private static double add(double a, double b){
+        return a+b;
+    }
+
+    //Subtraction method
+    private static double subtract(double a, double b){
+        return a-b;
+    }
+
+    //Multiplication method
+    private static double multiplicate(double a, double b){
+        return a*b;
+    }
+
+    //Division method
+    private static double divide (double a, double b) throws ArithmeticException{
+        if (b==0){
+            throw new ArithmeticException("Division by 0. Enter another divider: ");
+        }
+        return a/b;
     }
 
     //Enter operation from console
     private static char enterOperation() {
         char oper;
-        for (;;){ // If you entered not the expected operator, the cycle prompts you to enter again
+        while(true){ // If you entered not the expected operator, the cycle prompts you to enter again
             Scanner in = new Scanner(System.in);
             System.out.print("Enter operation (+,-,*,/): ");
             oper = in.next().charAt(0);
@@ -69,9 +80,8 @@ public class Calculator {
                 break;
             }else if (oper=='/'){
                 break;
-            }else {
-                System.out.println("You entered unexpected symbol, try again.");
             }
+            System.out.println("Unknown operation: "+oper);
         }
         return oper;
     }
