@@ -10,12 +10,12 @@ public class Calculator {
                 System.out.println("Starting new calculation:");
                 a = enterNumber();            //Enter first double number
                 oper = enterOperation();      //Enter operation
-        while (true) {
+        while (true) {                        //Catch "division by 0" Exception and enter new divider.
             try {
                 b = enterNumber();            //Enter second double number
                 res = calculate(a, oper, b);  //Calculate result
                 break;
-            } catch (ArithmeticException e) {
+            } catch (ArithmeticException e) { //Exception in Calculate method. "Division by 0. Enter another divider:"
                 System.out.println(e.getMessage());
             }
         }
@@ -37,7 +37,7 @@ public class Calculator {
             case ('/') -> {
                 return divide(a, b);
             }
-            default -> throw new Exception("Unknown operation: " + oper);
+            default -> throw new Exception("Unknown operation: \""+ oper+"\". Try again!");
         }
 
     }
@@ -88,18 +88,14 @@ public class Calculator {
 
     //Enter double number from console method
     private static double enterNumber() {
-        double num;
-        while (true) {
-            try {
+        while(true) {
+            try{
                 Scanner in = new Scanner(System.in);
                 System.out.print("Enter a number: ");
-                num = in.nextDouble();
-                break;
-            } catch (InputMismatchException e) {
+                return in.nextDouble();
+            }catch (InputMismatchException e) {
                 System.out.println("Your input is not a number! Try again!");
             }
         }
-        return (num);
     }
-
 }
