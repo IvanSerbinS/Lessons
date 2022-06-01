@@ -2,6 +2,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Calculator {
+
+
     public static void main(String[] args) throws Exception {
         double a, b;    //operands
         double res;     //result field
@@ -72,18 +74,11 @@ public class Calculator {
             Scanner in = new Scanner(System.in);
             System.out.print("Enter operation (+,-,*,/): ");
             oper = in.next().charAt(0);
-            if (oper=='+'){
-                break;
-            }else if (oper=='-'){
-                break;
-            }else if (oper=='*'){
-                break;
-            }else if (oper=='/'){
-                break;
+            switch (oper){
+                case '+', '-', '*', '/' -> { return oper;}
+                default -> System.out.println("Unknown operation: "+oper);
             }
-            System.out.println("Unknown operation: "+oper);
         }
-        return oper;
     }
 
     //Enter double number from console method
