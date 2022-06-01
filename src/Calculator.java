@@ -2,26 +2,27 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Calculator {
-
+    private static double a, b;    //operands
+    private static double res;     //result field
+    private static char operation;      //operator field
+    static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-        double a, b;    //operands
-        double res;     //result field
-        char oper;      //operator field
+
 
                 System.out.println("Starting new calculation:");
-                a = enterNumber();            //Enter first double number
-                oper = enterOperation();      //Enter operation
+                a = setNumber();            //Enter first double number
+                Calculator.setOperation();      //Enter operation
         while (true) {                        //Catch "division by 0" Exception and enter new divider.
             try {
-                b = enterNumber();            //Enter second double number
-                res = calculate(a, oper, b);  //Calculate result
+                b = setNumber();            //Enter second double number
+                res = calculate(a, operation, b);  //Calculate result
                 break;
             } catch (ArithmeticException e) { //Exception in Calculate method. "Division by 0. Enter another divider:"
                 System.out.println(e.getMessage());
             }
         }
-        System.out.println("Result: " + a + oper + b + '=' + res); //Output result
+        System.out.println("Result: " + a + operation + b + '=' + res); //Output result
     }
 
     //Calculation method
@@ -34,7 +35,7 @@ public class Calculator {
                 return subtract(a, b);
             }
             case ('*') -> {
-                return multiplicate(a, b);
+                return multiply(a, b);
             }
             case ('/') -> {
                 return divide(a, b);
@@ -55,7 +56,7 @@ public class Calculator {
     }
 
     //Multiplication method
-    private static double multiplicate(double a, double b){
+    private static double multiply(double a, double b){
         return a*b;
     }
 
@@ -68,24 +69,24 @@ public class Calculator {
     }
 
     //Enter operation from console
-    private static char enterOperation() {
+    private static void setOperation() {
         char oper;
-        while(true){ // If you entered not the expected operator, the cycle prompts you to enter again
-            Scanner in = new Scanner(System.in);
-            System.out.print("Enter operation (+,-,*,/): ");
-            oper = in.next().charAt(0);
-            switch (oper){
-                case '+', '-', '*', '/' -> { return oper;}
-                default -> System.out.println("Unknown operation: "+oper);
+        System.out.print("Enter operation (+,-,*,/): ");
+        oper = in.next().charAt(0);
+        switch (oper){
+            case '+', '-', '*', '/' -> Calculator.operation=oper;
+            default -> {
+                System.out.println("Unknown operation: "+oper+"-> Try again!");
+                setOperation();
             }
         }
+
     }
 
     //Enter double number from console method
-    private static double enterNumber() {
+    private static double setNumber() {
         while(true) {
             try{
-                Scanner in = new Scanner(System.in);
                 System.out.print("Enter a number: ");
                 return in.nextDouble();
             }catch (InputMismatchException e) {
