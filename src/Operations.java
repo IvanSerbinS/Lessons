@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Operations {
-    private static Scanner in = new Scanner(System.in);
+    private static final Scanner in = new Scanner(System.in);
     private static char operation;
 
     public static char getOperation() {
@@ -19,30 +19,36 @@ public class Operations {
                 setOperation();
             }
         }
-
     }
 
     //Calculation method
-    public static double calculate(double num1, double num2) {
-        switch (operation) {
-            case ('+') -> {return add(num1, num2);}
-
-            case ('-') -> {return subtract(num1, num2);}
-
-            case ('*') -> {return multiply(num1, num2);}
-
-            case ('/') -> {
-                while(num2!=0){
-                    return divide(num1, num2);
-                }
-                System.out.println("Division by 0. Try another divider!");
+    public static void calculate(){
+        double num1=Calculator.setDouble();
+        setOperation();
+        double num2=Calculator.setDouble();
+        double result;
+        switch (getOperation()) {
+            case ('+') -> {
+                result= add(num1, num2);
+                System.out.println("Result: " + num1 + getOperation() + num2 + '='+result); //Output result
             }
-            default -> {
-                System.out.println("Unknown operation: \"" + operation + "\". Try again!");
-                break;
+            case ('-') -> {
+                result= subtract(num1, num2);
+                System.out.println("Result: " + num1 + getOperation() + num2 + '='+result); //Output result
+            }
+            case ('*') -> {
+                result= multiply(num1, num2);
+                System.out.println("Result: " + num1 + getOperation() + num2 + '='+result); //Output result
+            }
+            case ('/') -> {
+                while(num2==0){
+                    System.out.println("Division by 0. Try another divider!");
+                    num2=Calculator.setDouble();
+                }
+                result=divide(num1, num2);
+                System.out.println("Result: " + num1 + getOperation() + num2 + '='+result); //Output result
             }
         }
-        calculate(num1, Calculator.setDouble());
     }
 
     //Addition method
