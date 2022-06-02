@@ -73,8 +73,33 @@ public class Calculator {
 
     //Enter double number from console method
     private static double enterDouble() {
-            try{
-                Scanner in = new Scanner(System.in);
+        double num;
+        Scanner in = new Scanner("-2.1");
+        String str = new String(in.nextLine());
+        //read minus
+        boolean isMinus=false;
+        if (str.charAt(0)=='-') {
+            isMinus = true;
+
+        }
+        //read numbers before dot or comma
+        int commaCount = 0;
+        for (int i=0; i<str.length();i++){
+            if (str.charAt(i)=='.'){
+                commaCount++;
+            }else if (str.charAt(i)==','){
+                commaCount++;
+            }
+            if ((!Character.isDigit(str.charAt(i)) && str.charAt(i) != '.' && str.charAt(i) != '-') || commaCount > 1) {
+                return false;
+            }
+        }
+        //read dot or coma
+        //read numbers after comma
+        //concatenate
+        //String to double
+        try{
+
                 System.out.print("Enter a number: ");
                 return in.nextDouble();
             }catch (InputMismatchException e) {
