@@ -2,18 +2,17 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Calculator {
-    private static double num1, num2;    //operands
-    private static double result;     //result field
-    private static char operation;      //operator field
-
 
     public static void main(String[] args) throws Exception {
+        double num1, num2;              //operands
+        double result;                  //result field
+        char operation;      //operator field
         System.out.println("Starting new calculation:");
-        num1 = setDouble();             //Enter first double number
-        setOperation();                 //Enter operation
+        num1 = enterDouble();             //Enter first double number
+        operation=enterOperation();                 //Enter operation
         while (true) {                  //Catch "division by 0" Exception and enter new divider.
             try {
-                num2 = setDouble();            //Enter second double number
+                num2 = enterDouble();            //Enter second double number
                 result = calculate(num1, operation, num2);  //Calculate result
                 break;
             } catch (ArithmeticException e) { //Exception in Calculate method. "Division by 0. -> Enter another divider."
@@ -58,30 +57,30 @@ public class Calculator {
     }
 
     //Enter operation from console
-    private static void setOperation() {
+    private static char enterOperation() {
         char oper;
         Scanner in = new Scanner(System.in);
         System.out.print("Enter operation (+,-,*,/): ");
-        oper = in.next().charAt(0);
+        oper=in.next().charAt(0);
         switch (oper){
-            case '+', '-', '*', '/' -> Calculator.operation=oper;
+            case '+', '-', '*', '/' -> {return oper;}
             default -> {
                 System.out.println("Unknown operation: "+oper+" -> Try again!");
-                setOperation();
+                return enterOperation();
             }
         }
-
     }
 
     //Enter double number from console method
-    private static double setDouble() {
+    private static double enterDouble() {
             try{
                 Scanner in = new Scanner(System.in);
                 System.out.print("Enter a number: ");
                 return in.nextDouble();
             }catch (InputMismatchException e) {
                 System.out.println("Your input is not a number! Try again!");
+                return enterDouble();
             }
-    return setDouble();
+
     }
 }
