@@ -29,7 +29,7 @@ public class Calculator {
             case ('-') -> {return subtract(a, b);}
             case ('*') -> {return multiply(a, b);}
             case ('/') -> {return divide(a, b);}
-            default -> throw new Exception("Unknown operation: \""+ oper+"\". Try again!");
+            default -> throw new Exception("Unknown operation: \""+ oper+"\"");
         }
     }
 
