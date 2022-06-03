@@ -37,8 +37,13 @@ public class Calculator {
     //Enter operation from console
     private static char enterOperation() {
         Scanner in = new Scanner(System.in);
-        System.out.print("Enter next operation (+,-,*,/) or 'c' to cancel: ");
-        return in.next().charAt(0);
+        System.out.print("Enter operation (+,-,*,/) or 'c' to cancel: ");
+        String str = in.nextLine();
+        if (str.length()==1){
+            return str.charAt(0);
+        }
+        System.out.println("Wring operation. Enter one symbol.");
+        return enterOperation();
     }
 
     //Enter double number from console method
@@ -46,8 +51,7 @@ public class Calculator {
         try{
             Scanner in = new Scanner(System.in);
             System.out.print("Enter a number: ");
-            String str = in.nextLine().replace(',','.');
-            return Double.parseDouble(str);
+            return Double.parseDouble(in.nextLine().replace(',','.'));
         }catch (NumberFormatException e) {
             System.out.println("Your input is not a number! Try again!");
             return enterDouble();
