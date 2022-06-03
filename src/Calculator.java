@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Calculator {
+    static Scanner in = new Scanner(System.in);
     public static void main(String[] args){
         System.out.println("Start new calculation.");
         calculate(enterDouble(), enterOperation());  //Calculate result
@@ -34,11 +35,10 @@ public class Calculator {
         calculate (a,enterOperation());
     }
 
-    //Enter operation from console
+    //Enter operation
     private static char enterOperation() {
-        Scanner in = new Scanner(System.in);
         System.out.print("Enter operation (+,-,*,/) or 'c' to cancel: ");
-        String str = in.nextLine();
+        String str = Calculator.in.nextLine();
         if (str.length()==1){
             return str.charAt(0);
         }
@@ -46,12 +46,11 @@ public class Calculator {
         return enterOperation();
     }
 
-    //Enter double number from console method
+    //Enter double
     private static double enterDouble() {
         try{
-            Scanner in = new Scanner(System.in);
             System.out.print("Enter a number: ");
-            return Double.parseDouble(in.nextLine().replace(',','.'));
+            return Double.parseDouble(Calculator.in.nextLine().replace(',','.'));
         }catch (NumberFormatException e) {
             System.out.println("Your input is not a number! Try again!");
             return enterDouble();
