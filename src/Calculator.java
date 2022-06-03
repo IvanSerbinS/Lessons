@@ -42,7 +42,7 @@ public class Calculator {
         if (str.length()==1){
             return str.charAt(0);
         }
-        System.out.println("Wring operation. Enter one symbol.");
+        System.out.println("Wrong operation. Enter one symbol.");
         return enterOperation();
     }
 
