@@ -1,12 +1,56 @@
 import java.util.Scanner;
 
+
 public class Calculator {
     static Scanner scan = new Scanner(System.in);
     public static void main(String[] args){
         double result;
         System.out.println("Starting calculation:");
         result = calculate(enterDouble(), enterOperation(), enterDouble());
-        System.out.println("Result: "+ result); //Output result
+        System.out.println("Result: "+ result);
+        result= calculate();
+        System.out.println("Result: "+ result);
+    }
+
+    private static double calculate(){
+        double a;
+        char operation;
+        double b;
+        int iOperation;
+
+        String expression;
+        System.out.println("Enter expression:");
+        expression=scan.nextLine();
+        System.out.println("1: "+expression);
+        iOperation=findOperation(expression);
+        System.out.println("2: "+iOperation);
+        operation=expression.charAt(iOperation);
+        System.out.println("3: "+operation);
+        String reg = "\\"+Character.toString(operation)+".*";
+        a=Double.parseDouble(expression.replaceAll("\\"+Character.toString(operation)+".*",""));
+        System.out.println("4: "+a);
+        double result;
+
+
+        return a;
+    }
+
+    private static int findOperation(String expression) {
+        if (expression.indexOf('+') != -1) {
+            return expression.indexOf('+');
+        } else if (expression.indexOf('-') == 0) {
+            String str = new String(expression);
+            str.replaceFirst("-.*", "");
+            if (str.indexOf('-') != -1) {
+                return expression.indexOf('-') + 1;
+            }else return -1;
+        }else if(expression.indexOf('-') == -1){
+            return expression.indexOf('-');
+        }else if(expression.indexOf('*')!=-1){
+            return expression.indexOf('*');
+        }else if(expression.indexOf('/')!=-1){
+            return expression.indexOf('/');
+        }else return -1;
     }
 
     //Calculation method
@@ -23,6 +67,7 @@ public class Calculator {
                         return calculate(a, operation, enterDouble());
                     }
             }
+
             default -> {//Enter new operation
                 System.out.println("Unknown operation: \""+ operation+"\"");
                 return calculate(a, enterOperation(), b);
