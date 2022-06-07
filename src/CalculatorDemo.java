@@ -2,61 +2,51 @@ import java.util.Scanner;
 
 public class CalculatorDemo {
     static Scanner scan = new Scanner(System.in);
+    static double num1;
+    static char operation;
+    static double num2;
 
     public static void main(String[] args) {
         double result;
         System.out.println("Starting calculation:");
-        result = calculate(enterDouble(), enterOperation());
+        num1 = InputDouble.enterDouble();
+        operation = InputOperation.enterOperation();
+        num2 = InputDouble.enterDouble();
+        do {
+            try {
+                result = calculate(num1, operation, num2);
+                break;
+            } catch (ArithmeticException e) {
+                System.out.println(e.getMessage()+" Enter new divider!");
+                num2 = InputDouble.enterDouble();
+            } catch (UnsupportedOperationException e) {
+                System.out.println(e.getMessage());
+                operation = InputOperation.enterOperation();
+            }
+        } while (true);
         System.out.println("Result: " + result); //Output result
     }
 
     //Calculation method
-    private static double calculate(double a, char operation) {
+    private static double calculate(double a, char operation, double b) throws UnsupportedOperationException, ArithmeticException {
         switch (operation) {
             case ('+') -> {
-                return Calculator.add(a, enterDouble());
+                return Calculator.add(a, b);
             }
             case ('-') -> {
-                return Calculator.subtract(a, enterDouble());
+                return Calculator.subtract(a, b);
             }
             case ('*') -> {
-                return Calculator.multiply(a, enterDouble());
+                return Calculator.multiply(a, b);
             }
             case ('/') -> {
                 try {
-                    return Calculator.divide(a, enterDouble());
+                    return Calculator.divide(a, b);
                 } catch (ArithmeticException e) {//Catch division by 0. Enter new divider
-                    System.out.println(e.getMessage() + " Enter new divider.");
-                    return calculate(a, operation);
+                    throw new ArithmeticException(e.getMessage());
                 }
             }
-            default -> {//Enter new operation
-                System.out.println("Unknown operation: \"" + operation + "\"");
-                return calculate(a, enterOperation());
-            }
-        }
-    }
-
-
-    //Enter operation
-    private static char enterOperation() {
-        System.out.print("Enter operation (+,-,*,/): ");
-        String str = CalculatorDemo.scan.nextLine();
-        if (str.length() == 1) {
-            return str.charAt(0);
-        }
-        System.out.println("Wrong operation. Enter one symbol.");
-        return enterOperation();
-    }
-
-    //Enter double number from console method
-    private static double enterDouble() {
-        try {
-            System.out.print("Enter a number: ");
-            return Double.parseDouble(CalculatorDemo.scan.nextLine().replace(',', '.'));
-        } catch (NumberFormatException e) {
-            System.out.println("Your input is not a number! Try again!");
-            return enterDouble();
+            default -> throw new UnsupportedOperationException("UnsupportedOperationException");
         }
     }
 }
